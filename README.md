@@ -263,16 +263,65 @@ No worker processes. No determinism constraints. No replay semantics.
 
 ## Run the Full Example
 
+### Prerequisites
+
 ```bash
 # Install CLI (one-time)
 curl -fsSL https://raw.githubusercontent.com/AxmeAI/axme-cli/main/install.sh | sh
-source ~/.zshrc
+# Open a new terminal, or run the "source" command shown by the installer
 
 # Log in
 axme login
 
-# Run the built-in example
-axme examples run delivery/stream
+# Install Python SDK
+pip install axme
+```
+
+### Terminal 1 - submit the intent
+
+```bash
+axme scenarios apply scenario.json
+# Note the intent_id in the output
+```
+
+### Terminal 2 - start the agent
+
+Get the agent key after scenario apply:
+
+```bash
+# macOS
+cat ~/Library/Application\ Support/axme/scenario-agents.json | grep -A2 order-fulfillment-demo
+
+# Linux
+cat ~/.config/axme/scenario-agents.json | grep -A2 order-fulfillment-demo
+```
+
+Then run the agent in your language of choice:
+
+```bash
+# Python (SSE stream listener)
+AXME_API_KEY=<agent-key> python agent.py
+
+# TypeScript (SSE stream listener, requires Node 20+)
+cd typescript && npm install
+AXME_API_KEY=<agent-key> npx tsx agent.ts
+
+# Go (SSE stream listener)
+cd go && go run ./cmd/agent/
+
+# Java (processes a single intent by ID)
+cd java/agent && mvn compile
+AXME_API_KEY=<agent-key> mvn -q exec:java -Dexec.mainClass="Agent" -Dexec.args="<step-intent-id>"
+
+# .NET (processes a single intent by ID)
+cd dotnet/agent && dotnet run -- <step-intent-id>
+```
+
+### Verify
+
+```bash
+axme intents get <intent_id>
+# lifecycle_status: COMPLETED
 ```
 
 ---

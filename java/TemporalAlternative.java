@@ -9,17 +9,17 @@
  *   mvn compile exec:java -Dexec.mainClass="TemporalAlternative"
  */
 
-import ai.axme.sdk.AxmeClient;
-import ai.axme.sdk.AxmeClientConfig;
+import dev.axme.sdk.AxmeClient;
+import dev.axme.sdk.AxmeClientConfig;
+import dev.axme.sdk.RequestOptions;
+import dev.axme.sdk.ObserveOptions;
 import java.util.List;
 import java.util.Map;
 
 public class TemporalAlternative {
     public static void main(String[] args) throws Exception {
         var client = new AxmeClient(
-            AxmeClientConfig.builder()
-                .apiKey(System.getenv("AXME_API_KEY"))
-                .build()
+            AxmeClientConfig.forCloud(System.getenv("AXME_API_KEY"))
         );
 
         // Submit order fulfillment — replaces Temporal Workflow + 3 Activities + Worker
@@ -40,11 +40,11 @@ public class TemporalAlternative {
                     "zip", "94105"
                 )
             )
-        ));
+        ), new RequestOptions());
         System.out.println("Intent submitted: " + intentId);
 
         // Wait for completion — no polling, no webhooks, no worker
-        var result = client.waitFor(intentId);
-        System.out.println("Final status: " + result.getStatus());
+        var result = client.waitFor(intentId, new ObserveOptions());
+        System.out.println("Final status: " + result.get("status"));
     }
 }

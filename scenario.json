@@ -1,0 +1,40 @@
+{
+  "scenario_id": "temporal-alternative.demo.v1",
+  "title": "Temporal alternative - order fulfillment workflow",
+  "description": "Order fulfillment: validate inventory, charge payment, create shipment. One intent instead of Temporal activities + workflow + worker.",
+
+  "agents": [
+    {
+      "role": "fulfillment_service",
+      "address": "order-fulfillment-demo",
+      "display_name": "Order Fulfillment Service",
+      "delivery_mode": "stream",
+      "create_if_missing": true
+    }
+  ],
+
+  "workflow": {
+    "steps": [
+      {
+        "step_id": "fulfill_order",
+        "tool_id": "tool.agent.task.v1",
+        "assigned_to": "fulfillment_service",
+        "step_deadline_seconds": 120
+      }
+    ]
+  },
+
+  "intent": {
+    "type": "intent.order.fulfill.v1",
+    "payload": {
+      "order_id": "ORD-2026-4821",
+      "items": [
+        {"sku": "WIDGET-A", "quantity": 2, "price": 29.99},
+        {"sku": "GADGET-B", "quantity": 1, "price": 149.99}
+      ],
+      "customer_id": "CUST-1234",
+      "shipping_address": "123 Main St, Anytown, US"
+    },
+    "max_delivery_attempts": 3
+  }
+}
