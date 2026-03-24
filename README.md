@@ -225,14 +225,15 @@ Full implementations in all 5 languages:
 ## How It Works
 
 ```
-┌──────────┐    send_intent()     ┌──────────────┐    deliver     ┌─────────────┐
-│  Client   │ ──────────────────► │  AXME Cloud   │ ────────────► │   Service   │
-│           │                     │  (platform)   │               │   (agent)   │
-│           │ ◄──── observe() ──  │               │ ◄── resume()  │             │
-│           │   real-time SSE     │  retries,     │   with result │  processes  │
-└──────────┘                     │  timeouts,    │               │  the work   │
-                                  │  delivery     │               └─────────────┘
-                                  └──────────────┘
+┌────────────┐  send_intent()   ┌────────────────┐   deliver    ┌──────────────┐
+│            │ ───────────────> │                │ ──────────>  │              │
+│   Client   │                  │   AXME Cloud   │              │   Service    │
+│            │ <── observe() ── │   (platform)   │ <─ resume()  │   (agent)    │
+│            │  real-time SSE   │                │  with result │              │
+└────────────┘                  │   retries,     │              │  processes   │
+                                │   timeouts,    │              │  the work    │
+                                │   delivery     │              │              │
+                                └────────────────┘              └──────────────┘
 ```
 
 1. Client submits an **intent** — "fulfill this order"
