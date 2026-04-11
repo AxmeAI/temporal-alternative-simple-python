@@ -5,7 +5,7 @@ Temporal needs Activities, Workflows, Workers, determinism constraints, and a pl
 **There is a better way.** One intent replaces the entire Temporal stack — no workers, no determinism rules, no replay constraints. Submit an intent, get a result.
 
 > **Alpha** · Built with [AXME](https://github.com/AxmeAI/axme) (AXP Intent Protocol).
-> [cloud.axme.ai](https://cloud.axme.ai) · [hello@axme.ai](mailto:hello@axme.ai)
+> [cloud.axme.ai](https://cloud.axme.ai) · [contact@axme.ai](mailto:contact@axme.ai)
 
 ---
 
